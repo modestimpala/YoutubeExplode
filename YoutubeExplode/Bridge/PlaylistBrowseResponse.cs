@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
@@ -46,7 +45,14 @@ internal partial class PlaylistBrowseResponse(JsonElement content) : IPlaylistDa
             ?.EnumerateArrayOrNull()
             ?.Select(j => j.GetPropertyOrNull("text")?.GetStringOrNull())
             .WhereNotNull()
-            .ConcatToString();
+            .ConcatToString()
+        ?? SidebarPrimary
+            ?.GetPropertyOrNull("titleForm")
+            ?.GetPropertyOrNull("inlineFormRenderer")
+            ?.GetPropertyOrNull("formField")
+            ?.GetPropertyOrNull("textInputFormFieldRenderer")
+            ?.GetPropertyOrNull("value")
+            ?.GetStringOrNull();
 
     [Lazy]
     private JsonElement? AuthorDetails =>
@@ -86,7 +92,14 @@ internal partial class PlaylistBrowseResponse(JsonElement content) : IPlaylistDa
             ?.EnumerateArrayOrNull()
             ?.Select(j => j.GetPropertyOrNull("text")?.GetStringOrNull())
             .WhereNotNull()
-            .ConcatToString();
+            .ConcatToString()
+        ?? SidebarPrimary
+            ?.GetPropertyOrNull("descriptionForm")
+            ?.GetPropertyOrNull("inlineFormRenderer")
+            ?.GetPropertyOrNull("formField")
+            ?.GetPropertyOrNull("textInputFormFieldRenderer")
+            ?.GetPropertyOrNull("value")
+            ?.GetStringOrNull();
 
     [Lazy]
     public IReadOnlyList<ThumbnailData> Thumbnails =>
@@ -106,7 +119,7 @@ internal partial class PlaylistBrowseResponse(JsonElement content) : IPlaylistDa
             ?.EnumerateArrayOrNull()
             ?.Select(j => new ThumbnailData(j))
             .ToArray()
-        ?? Array.Empty<ThumbnailData>();
+        ?? [];
 }
 
 internal partial class PlaylistBrowseResponse

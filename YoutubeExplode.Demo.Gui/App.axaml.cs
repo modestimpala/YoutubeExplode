@@ -9,16 +9,21 @@ namespace YoutubeExplode.Demo.Gui;
 
 public class App : Application
 {
-    public override void Initialize() => AvaloniaXamlLoader.Load(this);
+    public override void Initialize()
+    {
+        base.Initialize();
+
+        AvaloniaXamlLoader.Load(this);
+    }
 
     public override void OnFrameworkInitializationCompleted()
     {
-        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-            desktop.MainWindow = new MainWindow();
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
+            desktopLifetime.MainWindow = new MainWindow();
 
         base.OnFrameworkInitializationCompleted();
 
-        // Set custom theme colors
+        // Set up custom theme colors
         this.LocateMaterialTheme<MaterialThemeBase>().CurrentTheme = Theme.Create(
             Theme.Light,
             Color.Parse("#343838"),

@@ -3,20 +3,21 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
-    xmlns:converters="using:YoutubeExplode.Demo.Gui.Converters"
+    xmlns:converters="clr-namespace:YoutubeExplode.Demo.Gui.Converters"
     xmlns:materialControls="clr-namespace:Material.Styles.Controls;assembly=Material.Styles"
     xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
-    xmlns:viewModels="using:YoutubeExplode.Demo.Gui.ViewModels"
-    x:Name="Root"
+    xmlns:viewModels="clr-namespace:YoutubeExplode.Demo.Gui.ViewModels"
     Title="YoutubeExplode Demo"
     Width="720"
     Height="620"
+    x:DataType="viewModels:MainViewModel"
     Icon="/favicon.ico"
-    Loaded="Root_OnLoaded"
+    Loaded="Window_OnLoaded"
     WindowStartupLocation="CenterScreen">
     <Window.DataContext>
         <viewModels:MainViewModel />
     </Window.DataContext>
+
     <DockPanel>
         <!--  Header  -->
         <StackPanel
@@ -48,7 +49,7 @@
 
             <!--  Progress  -->
             <ProgressBar
-                Height="1"
+                Height="2"
                 Background="Transparent"
                 IsIndeterminate="{Binding IsProgressIndeterminate}"
                 Value="{Binding Progress}" />
@@ -117,7 +118,7 @@
                                 HorizontalAlignment="Right"
                                 FontSize="16"
                                 FontWeight="SemiLight">
-                                <Run Text="{Binding Video.Engagement.ViewCount, StringFormat=\{0:N0\}, Mode=OneWay}" />
+                                <Run Text="{Binding Video.Engagement.ViewCount, StringFormat={}{0:N0}, Mode=OneWay}" />
                                 <Run Text="views" />
                             </TextBlock>
 
@@ -134,7 +135,7 @@
                             <ProgressBar
                                 Grid.Row="1"
                                 Grid.Column="2"
-                                Height="1"
+                                Height="2"
                                 MinWidth="150"
                                 Margin="0,0,6,0"
                                 HorizontalAlignment="Stretch"
@@ -148,7 +149,7 @@
                                 Grid.Column="1"
                                 Margin="6,4,6,6"
                                 FontWeight="SemiLight"
-                                Text="{Binding Video.UploadDate, StringFormat=\{0:MMM d\, yyyy\}}" />
+                                Text="{Binding Video.UploadDate, StringFormat={}{0:MMM d\, yyyy}}" />
 
                             <!--  Likes and dislikes  -->
                             <StackPanel
@@ -162,7 +163,7 @@
                                     Margin="3,0,0,0"
                                     VerticalAlignment="Center"
                                     FontWeight="SemiLight"
-                                    Text="{Binding Video.Engagement.LikeCount, StringFormat=\{0:N0\}}" />
+                                    Text="{Binding Video.Engagement.LikeCount, StringFormat={}{0:N0}}" />
                                 <materialIcons:MaterialIcon
                                     Margin="8,0,0,0"
                                     VerticalAlignment="Center"
@@ -171,7 +172,7 @@
                                     Margin="3,0,0,0"
                                     VerticalAlignment="Center"
                                     FontWeight="SemiLight"
-                                    Text="{Binding Video.Engagement.DislikeCount, StringFormat=\{0:N0\}}" />
+                                    Text="{Binding Video.Engagement.DislikeCount, StringFormat={}{0:N0}}" />
                             </StackPanel>
                         </Grid>
                     </StackPanel>
@@ -251,7 +252,7 @@
                                         <Button
                                             Padding="4"
                                             VerticalAlignment="Center"
-                                            Command="{Binding DataContext.DownloadStreamCommand, ElementName=Root}"
+                                            Command="{Binding $parent[Window].((viewModels:MainViewModel)DataContext).DownloadStreamCommand}"
                                             CommandParameter="{Binding}"
                                             Theme="{DynamicResource MaterialFlatButton}">
                                             <materialIcons:MaterialIcon
@@ -292,7 +293,7 @@
                                         <Button
                                             Padding="4"
                                             VerticalAlignment="Center"
-                                            Command="{Binding DataContext.DownloadStreamCommand, ElementName=Root}"
+                                            Command="{Binding $parent[Window].((viewModels:MainViewModel)DataContext).DownloadStreamCommand}"
                                             CommandParameter="{Binding}"
                                             Theme="{DynamicResource MaterialFlatButton}">
                                             <materialIcons:MaterialIcon
@@ -333,7 +334,7 @@
                                         <Button
                                             Padding="4"
                                             VerticalAlignment="Center"
-                                            Command="{Binding DataContext.DownloadStreamCommand, ElementName=Root}"
+                                            Command="{Binding $parent[Window].((viewModels:MainViewModel)DataContext).DownloadStreamCommand}"
                                             CommandParameter="{Binding}"
                                             Theme="{DynamicResource MaterialFlatButton}">
                                             <materialIcons:MaterialIcon
@@ -384,7 +385,7 @@
                                     <Button
                                         Padding="4"
                                         VerticalAlignment="Center"
-                                        Command="{Binding DataContext.DownloadClosedCaptionTrackCommand, ElementName=Root}"
+                                        Command="{Binding $parent[Window].((viewModels:MainViewModel)DataContext).DownloadClosedCaptionTrackCommand}"
                                         CommandParameter="{Binding}"
                                         Theme="{DynamicResource MaterialFlatButton}">
                                         <materialIcons:MaterialIcon

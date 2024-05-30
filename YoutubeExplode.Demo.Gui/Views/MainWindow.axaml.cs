@@ -1,17 +1,22 @@
-﻿using Avalonia.Controls;
+﻿using System;
+using Avalonia.Controls;
 using Avalonia.Interactivity;
+using YoutubeExplode.Demo.Gui.ViewModels;
 
 namespace YoutubeExplode.Demo.Gui.Views;
 
 public partial class MainWindow : Window
 {
-    public MainWindow()
+    public MainWindow() => InitializeComponent();
+
+    public new MainViewModel DataContext
     {
-        InitializeComponent();
+        get =>
+            (MainViewModel)(
+                base.DataContext ?? throw new InvalidOperationException("DataContext is not set.")
+            );
+        set => base.DataContext = value;
     }
 
-    private void Root_OnLoaded(object? sender, RoutedEventArgs args)
-    {
-        QueryTextBox.Focus();
-    }
+    private void Window_OnLoaded(object? sender, RoutedEventArgs args) => QueryTextBox.Focus();
 }
