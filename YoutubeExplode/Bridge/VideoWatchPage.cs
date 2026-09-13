@@ -1,11 +1,9 @@
 using System;
 using System.Globalization;
 using System.Linq;
-using System.Text.Json;
 using System.Text.RegularExpressions;
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
-using JsonExtensions.Reading;
 using Lazy;
 using PowerKit.Extensions;
 using YoutubeExplode.Utils;

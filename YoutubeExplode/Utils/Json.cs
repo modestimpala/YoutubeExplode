@@ -1,7 +1,9 @@
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Text.Json;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace YoutubeExplode.Utils;
 
@@ -42,8 +44,14 @@ internal static class Json
 
     public static JsonElement Parse(string source)
     {
-        using var document = JsonDocument.Parse(source);
-        return document.RootElement.Clone();
+        using var reader = new JsonTextReader(new StringReader(source))
+        {
+            // Keep raw scalars intact: YouTube payloads carry date-like strings that
+            // must not be reinterpreted as DateTime values.
+            DateParseHandling = DateParseHandling.None,
+        };
+
+        return new JsonElement(JToken.ReadFrom(reader));
     }
 
     public static JsonElement? TryParse(string source)
